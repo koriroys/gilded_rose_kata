@@ -20,15 +20,15 @@ def update_quality(items)
     item.sell_in -= 1
 
     if expired?(item)
-      if item.name != CHEESE
-        if item.name != TICKETS
-          item.quality -= 1 if item.quality > 0
-        else
-          item.quality = 0
-        end
-      else
+      if item.name == CHEESE
         if item.quality < MAX_QUALITY
           item.quality += 1
+        end
+      else
+        if item.name == TICKETS
+          item.quality = 0
+        else
+          item.quality -= 1 if item.quality > 0
         end
       end
     end
