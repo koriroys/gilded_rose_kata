@@ -1,6 +1,12 @@
+
+  SULFURAS = 'Sulfuras, Hand of Ragnaros'
+  TICKETS = 'Backstage passes to a TAFKAL80ETC concert'
+  CHEESE = 'Aged Brie'
+
 def update_quality(items)
+
   items.each do |item|
-    next if item.name == 'Sulfuras, Hand of Ragnaros'
+    next if item.name == SULFURAS
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
         item.quality -= 1
