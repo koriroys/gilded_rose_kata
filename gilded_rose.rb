@@ -11,19 +11,20 @@ def update_quality(items)
       next
     when CHEESE
       item.quality += 1 if item.quality < MAX_QUALITY
+      item.sell_in -= 1
+      if expired?(item)
+        item.quality += 1 if item.quality < MAX_QUALITY
+      end
     when TICKETS
       backstage_pass if item.quality < MAX_QUALITY
+      item.sell_in -= 1
+      if expired?(item)
+        item.quality = 0
+      end
     else
       item.quality -= 1 if item.quality > 0
-    end
-
-    item.sell_in -= 1
-
-    if expired?(item)
-      if item.name == CHEESE
-        item.quality += 1 if item.quality < MAX_QUALITY
-      else
-        item.quality = 0 and next if item.name == TICKETS
+      item.sell_in -= 1
+      if expired?(item)
         item.quality -= 1 if item.quality > 0
       end
     end
