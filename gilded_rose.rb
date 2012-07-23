@@ -1,43 +1,46 @@
 def update_quality(items)
   items.each do |item|
-    if item.name != 'Sulfuras, Hand of Ragnaros'
-      if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-        if item.quality > 0
-          item.quality -= 1
+    next if item.name == 'Sulfuras, Hand of Ragnaros'
+    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if item.quality > 0
+        item.quality -= 1
+      end
+    else
+      if item.quality < 50
+        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+          backstage_pass
+        else
+          item.quality += 1
+        end
+      end
+    end
+
+    item.sell_in -= 1
+
+    if expired?(item)
+      if item.name != "Aged Brie"
+        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+          item.quality -= 1 if item.quality > 0
+        else
+          item.quality = 0
         end
       else
         if item.quality < 50
-          if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-            if item.sell_in < 6
-              item.quality += 3
-            elsif item.sell_in < 11
-              item.quality += 2
-            else
-              item.quality += 1
-            end
-          else
-            item.quality += 1
-          end
-        end
-      end
-
-      item.sell_in -= 1
-
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-            item.quality -= 1 if item.quality > 0
-          else
-            item.quality = 0
-          end
-        else
-          if item.quality < 50
-            item.quality += 1
-          end
+          item.quality += 1
         end
       end
     end
   end
+end
+
+def expired?(item)
+  item.sell_in < 0
+end
+
+def backstage_pass
+  item.quality += 3 and return if item.sell_in < 6
+  item.quality += 2 and return if item.sell_in < 11
+  item.quality += 1
 end
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
