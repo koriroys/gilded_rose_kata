@@ -11,21 +11,12 @@ def update_quality(items)
 
     case item.name
     when CHEESE
-      item.quality += 1
-      if expired?(item)
-        item.quality += 1
-      end
+      expired?(item) ? item.quality += 2 : item.quality += 1
     when TICKETS
       backstage_pass
-      if expired?(item)
-        item.quality = 0
-      end
+      expired?(item) ? item.quality = 0 : nil
     else
-      if expired?(item)
-        item.quality -= 2
-      else
-        item.quality -= 1
-      end
+      expired?(item) ? item.quality -= 2 : item.quality -= 1
     end
 
     item.quality = 50 if item.quality > 50
