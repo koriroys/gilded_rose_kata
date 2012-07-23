@@ -1,37 +1,33 @@
-
-  SULFURAS = 'Sulfuras, Hand of Ragnaros'
-  TICKETS = 'Backstage passes to a TAFKAL80ETC concert'
-  CHEESE = 'Aged Brie'
+SULFURAS = 'Sulfuras, Hand of Ragnaros'
+TICKETS = 'Backstage passes to a TAFKAL80ETC concert'
+CHEESE = 'Aged Brie'
+MAX_QUALITY = 50
 
 def update_quality(items)
 
   items.each do |item|
-    next if item.name == SULFURAS
-    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-      if item.quality > 0
-        item.quality -= 1
-      end
+    case item.name
+    when SULFURAS
+      next
+    when CHEESE
+      item.quality += 1 if item.quality < MAX_QUALITY
+    when TICKETS
+      backstage_pass if item.quality < MAX_QUALITY
     else
-      if item.quality < 50
-        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-          backstage_pass
-        else
-          item.quality += 1
-        end
-      end
+      item.quality -= 1 if item.quality > 0
     end
 
     item.sell_in -= 1
 
     if expired?(item)
-      if item.name != "Aged Brie"
-        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if item.name != CHEESE
+        if item.name != TICKETS
           item.quality -= 1 if item.quality > 0
         else
           item.quality = 0
         end
       else
-        if item.quality < 50
+        if item.quality < MAX_QUALITY
           item.quality += 1
         end
       end
