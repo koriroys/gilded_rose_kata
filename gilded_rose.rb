@@ -6,23 +6,21 @@ MAX_QUALITY = 50
 def update_quality(items)
 
   items.each do |item|
+    next if item.name == SULFURAS
+    item.sell_in -= 1
+
     case item.name
-    when SULFURAS
-      next
     when CHEESE
       item.quality += 1
-      item.sell_in -= 1
       if expired?(item)
         item.quality += 1
       end
     when TICKETS
       backstage_pass
-      item.sell_in -= 1
       if expired?(item)
         item.quality = 0
       end
     else
-      item.sell_in -= 1
       if expired?(item)
         item.quality -= 2
       else
@@ -40,8 +38,8 @@ def expired?(item)
 end
 
 def backstage_pass
-  item.quality += 3 and return if item.sell_in < 6
-  item.quality += 2 and return if item.sell_in < 11
+  item.quality += 3 and return if item.sell_in < 5
+  item.quality += 2 and return if item.sell_in < 10
   item.quality += 1
 end
 
