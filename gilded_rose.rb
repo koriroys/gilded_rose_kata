@@ -1,6 +1,7 @@
 SULFURAS = 'Sulfuras, Hand of Ragnaros'
 TICKETS = 'Backstage passes to a TAFKAL80ETC concert'
 CHEESE = 'Aged Brie'
+CONJURED = 'Conjured Mana Cake'
 MAX_QUALITY = 50
 
 def update_quality(items)
@@ -15,6 +16,8 @@ def update_quality(items)
     when TICKETS
       backstage_pass
       expired?(item) ? item.quality = 0 : nil
+    when CONJURED
+      item.quality -= 2
     else
       expired?(item) ? item.quality -= 2 : item.quality -= 1
     end
